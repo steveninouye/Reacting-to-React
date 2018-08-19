@@ -10,9 +10,8 @@ class App extends Component {
     }
 
     handleInput(event) {
-        const value = event.target.value;
+        const value = event.target.value; // need to save event in a variable or will it will be garbage collected before setState changes the state of the Component
         this.setState((prevState) => {
-            console.log(value);
             return { text: value };
         });
     }
