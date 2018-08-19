@@ -4,9 +4,15 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'this is text from sate'
+            text: 'this is text from state',
+            hasLoaded: false
         };
         this.handleInput = this.handleInput.bind(this);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({ hasLoaded: true });
     }
 
     handleInput(event) {
@@ -16,17 +22,37 @@ class App extends Component {
         });
     }
 
+    handleButtonClick() {
+        this.setState((prevState) => {
+            return { hasLoaded: !prevState.hasLoaded };
+        });
+    }
+
     render() {
-        return (
-            <Fragment>
-                <h1>{`${this.props.str} ${this.state.text}`}</h1>
-                <input
-                    type="text"
-                    value={this.state.text}
-                    onChange={this.handleInput}
-                />
-            </Fragment>
-        );
+        if (this.state.hasLoaded) {
+            return (
+                <Fragment>
+                    <h1>{`${this.props.str} ${this.state.text}`}</h1>
+                    <input
+                        type="text"
+                        value={this.state.text}
+                        onChange={this.handleInput}
+                    />
+                    <button onClick={this.handleButtonClick}>
+                        Load New Content
+                    </button>
+                </Fragment>
+            );
+        } else {
+            return (
+                <Fragment>
+                    <h1>Loading...</h1>
+                    <button onClick={this.handleButtonClick}>
+                        Load Content
+                    </button>
+                </Fragment>
+            );
+        }
     }
 }
 
